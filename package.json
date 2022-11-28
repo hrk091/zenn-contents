@@ -1,0 +1,11 @@
+{
+  "name": "zenn-docs",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hrk091/zenn-docs.git",
+  "author": "Hiroki Okui <hiroki.okui@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "zenn-cli": "^0.1.132"
+  }
+}
