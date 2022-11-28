@@ -1,1 +1,1 @@
-# zenn-contents
+# zenn-docs
