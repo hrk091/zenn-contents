@@ -1,12 +1,12 @@
 ---
-title: "CloudNativeDays Tokyo 2022 まとめ"
+title: "CloudNative Days Tokyo 2022 まとめ"
 emoji: "📝"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["CloudNativeDays", "Kubernetes"]
 published: true
 ---
 
-2022年11月21日-22日の2日間で、CloudNativeDays Tokyo 2022が開催されました。
+2022年11月21日-22日の2日間で、CloudNative Days Tokyo 2022が開催されました。
 
 面白い発表がたくさんあったので、記憶が薄れないうちにざっくりとまとめてみます。
 個人的に印象に残ったところを切り取っただけの雑なまとめなので、気になった方はぜひ発表を見てみてください。以下のページからアーカイブ視聴が可能になっています。
