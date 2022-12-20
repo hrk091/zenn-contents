@@ -1,9 +1,9 @@
 ---
-title: "ネットワーク分野でIaCを実現するのはなぜ難しいのか"
+title: "ネットワークコンフィグでIaCを実現するのはなぜ難しいのか"
 emoji: "🌐"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["IaC", "Network", "CUE", "yang"]
-published: false
+published: true
 ---
 
 この記事は、[NTT Communications Advent Calendar 2022](https://adventar.org/calendars/7380) 21日目の記事です。
