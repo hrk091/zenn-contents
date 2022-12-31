@@ -3,7 +3,7 @@ title: "2022年に扱った技術の振り返り"
 emoji: "🌇"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["振り返り"]
-published: false
+published: true
 ---
 
 2022年も今日で終わりですね。
@@ -11,7 +11,7 @@ published: false
 
 ## はじめに
 
-簡単に自己紹介をすると、某通信事業者でシステム開発をしています。スクラムで少人数（開発次第では一人）で開発をしていることが多く、フルスタックに手広く手掛けています。今年は、主にIaC・CI/CD基盤システムの開発と、ネットワークのIaCを実現するためのフレームワークの開発をしていました。それぞれの概要については、以下の講演資料で説明しています。
+簡単に自己紹介をしておくと、某通信事業者でシステム開発をしています。スクラムで少人数（開発次第では一人）で開発をしていることが多く、フルスタックに手広く手掛けています。今年は、主にIaC・CI/CD基盤システムの開発と、ネットワークのIaCを実現するためのフレームワークの開発をしていました。それぞれの概要については、以下の講演資料で説明しています。
 
 - [マニフェストレスで使える IaC・CI/CD のSaaSプロダクト化への挑戦](https://speakerdeck.com/hrk091/cd-nosaaspurodakutohua-henotiao-zhan)
 - [クラウドネイティブな新しいネットワークコントローラをつくる](https://speakerdeck.com/hrk091/kuraudoneiteibunaxin-siinetutowakukontororawotukuru)
@@ -24,7 +24,7 @@ published: false
 
 ### 言語
 
-Go・TypeScript・Pythonの3つでした。2021年度と変わらないラインナップですが、今年はGoの比重が大きく増え、バックエンドはGo、フロントエンドはTypeScript、データ加工のスクリプトを書くときだけPython、の構成が定着しつつあります。Kubernetesカスタムオペレータで開発することが多かったこと、CUEのGo APIを使う必要があること、がGoの比重が増えた主な要因ですが、FastAPIでパフォーマンス問題で痛い目を見たため、Gradual Typingよりも静的型付け言語を選択したいという思いが強くなったことも大きいです。
+Go・TypeScript・Pythonの3つでした。2021年度と変わらないラインナップですが、今年はGoの比重が大きく増え、バックエンドはGo、フロントエンドはTypeScript、データ加工のスクリプトを書くときだけPython、の構成が定着しつつあります。「Kubernetesカスタムオペレータで開発することが多かった」「CUEのGo APIを使う必要がある」あたりがGoの比重が増えた主な要因ですが、FastAPIを使っていてランタイム型検査のパフォーマンス問題で痛い目を見たため、Gradual Typingよりも静的型付け言語を選択したいという思いが強くなったことも大きいです。
 なお、もう型のない開発には戻れないので、言語を問わず型安全なコードを書くようにしています。
 
 
@@ -44,38 +44,40 @@ Go・TypeScript・Pythonの3つでした。2021年度と変わらないライン
 - Reduxのsliceを使ったキャッシュがノーコードで実現できる
 - キャッシュ更新のタイミングを柔軟に制御できるし、mutationをトリガにしたrefetchを自動構成することもできる
 
-まるでApolloやFirestore APIを使っているかのような使用感が、REST APIからほぼノーコードで得られたので、衝撃でした。年内は時間が取れずRTK Queryの記事を書けなかったので、また改めて書こうと思っています。
+まるでApolloやFirestore APIを使っているかのような使用感が、REST APIからほぼノーコードで得られたので、衝撃でした。バックエンドがREST APIしか提供しておらずopenapi-generator-cliを使っている方は結構いると思うので、その場合はぜひRTK Queryを触ってみてほしいです。 年内は時間が取れずRTK Queryの記事を書けなかったので、また改めて書く予定です。
 
 ### バックエンドAPI
 
 PythonではFastAPI、Goではgrpc-goでAPIを実装していました。
-FastAPIでは、firestoreやKubernetes api-serverへのリクエストをラップしてREST APIとして提供する機能を担わせていて、Pydanticとdatamodel-codegenのおかげで開発体験は良かったですが、Kubernetesリソースを扱う用途でFastAPIを使うとパフォーマンスがネックでした。
+FastAPIでは、firestoreやKubernetes api-serverへのリクエストをラップしてREST APIとして提供する機能を担わせていました。Pydanticとdatamodel-codegenのおかげで開発体験は良かったですが、Kubernetesリソースを扱う用途でFastAPIを使うとパフォーマンスがネックでした。
 一方Goで書いているプロジェクトの方は、複数のマイクロサービスがサーバ間通信を多用する構成だったため、gRPCで効率的に開発できました。Goだと、net/httpにしてもgRPCにしてもhttpのサーブ機能も持っており、使いやすく抽象化しつつも過度に隠蔽していないためトランスポートなどを柔軟に変更できるのが良いです。[Connect](https://connect.build/) も使ってみたかったのですが時間が取れなかったので、来年の課題です。
 
-また、RESTよりもGraphQLを使いたい派なのですが今年は機会に恵まれなかったので、来年はGraphQLを使った開発をやりたいです。外部向けにはGraphQLよりもRESTの方が利用者が多いという理由でRESTを選定しがちなのですが、[GraphQL SOFA](https://the-guild.dev/graphql/sofa-api)なるものを[layerXさんのブログ記事](https://tech.layerx.co.jp/entry/2022/12/19/230000)で見かけたので、このあたりも試してみたいです。
+本当はRESTよりGraphQLを使いたいのですが今年は機会に恵まれなかったので、来年こそはGraphQLを選定した開発をやりたいです。外部向けにはGraphQLよりもRESTの方が利用者が多いという理由でRESTを選定しがちなのですが、[GraphQL SOFA](https://the-guild.dev/graphql/sofa-api)なるものを[layerXさんのブログ記事](https://tech.layerx.co.jp/entry/2022/12/19/230000)で見かけたので、このあたりも試してみたいです。
 
 
 ### Kubernetesカスタムオペレータ
 
-今年はKubernetesカスタムオペレータを書く機会が多かったので、kubebuilderにすごくお世話になりました。ginkgo/gomegaでのBDDテストの実装も、オペレータのテストが書きやすかったです。一方で、kubebuilderのBDDテストはユニットテストではなく、状態収束を待つ必要もあってテスト時間がどうしても長くなってしまうので、来年はこのあたりも積極的に改善していきたいです。
+今年はKubernetesカスタムオペレータを書く機会が多かったので、kubebuilderにすごくお世話になりました。ginkgo/gomegaでのBDDテストの実装も、オペレータのテストが書きやすかったです。一方で、kubebuilderのBDDテストはユニットテストではなく、状態収束を待つ必要があってテスト時間がどうしても長くなってしまうので、来年はこのあたりも積極的に改善していきたいです。
 開発では、定番ですがkindやtelepresenceが活躍してくれました。カスタムオペレータはapi-serverとetcdさえあればどこでも開発・動作検証ができるので、このあたりの軽量性も良きです。
 
 
 ### データベース
 
 クラウドのマネージドNoSQLが費用面でも保守面でもメリットが大きすぎて、firestoreやdynamoDBばかり使っています。2022年はRDBを使うことがほぼありませんでした。ここ数年でNoSQLのモデリング力はかなり上がりましたが、トランザクションが必要なケースで極端に面倒になるので、うまく使い分けていきたいところです。
-一方で、割り切って分散トランザクションマネージャに集約すると、モノリス・マイクロサービスのアーキテクチャ選定に依存しなくなるので、パフォーマンスが重要でないならありなのではと考えています。開発を高速化するための有効な一手になる気がしているので、来年はこのあたりも調査したいです。
+一方で、割り切って分散トランザクションマネージャに集約すると、モノリス・マイクロサービスのアーキテクチャ選定に依存しなくなるので、パフォーマンスが重要でないならありなのではと考えています。開発を高速化するための有効な一手になる気がしているので、来年はこのあたりも試したいです。
 
 
 ### IaC
 
-基本はTerraformを常用していて、業務で使うのでPulumiとCUEは詳しいのですが、今年はAWS CDKも使ってみました。PulumiとAWS CDKはコンセプトが近いので比較されることが多いですが、TypeScript SDKを使っての比較では、AWS CDKに軍配があがるように感じました。
+基本はTerraformを常用していて、業務で使うためPulumiとCUEもたくさん触りました。
+今年は縁あってAWS CDKも使ってみました。PulumiとAWS CDKはコンセプトが近いので比較されることが多いですが、TypeScript SDKを使っての比較では、AWS CDKに軍配があがるように感じました。
 CUEは、2022年は[Dagger](https://dagger.io/)やOpenSSFの[FRSCA](https://github.com/buildsec/frsca)など、IaCだけではなくCI/CDにもCUEを活用する事例が出てきました。今後の展開が楽しみです。
 
 
 ### CI/CD
 
-Tektonを使ってCIOpsするプロダクトを開発している関係で、昨年まではCDもTektonで行っていたのですが、今年は他のプロジェクトにも参画したためArgoCDやFluxCDも扱いました。やはりArgoはCD特化でよくできていて素晴らしいですね。ApplicationSetなどで利便性が増してますし、PullRequest Generatorを使うことで自前でNetlifyやCloudflareのようなPR previewがバックエンド込で構築できてしまうのがすごいです。
+Tektonを使ってCIOpsするプロダクトを開発している関係で、昨年同様に開発でもCDでもTektonを頻繁に触っていました。ただ今年は他のプロジェクトにも参画したため、ArgoCDやFluxCDも扱いました。
+ArgoCDは、やはりCD特化でよくできていて素晴らしいですね。ApplicationSetなどで利便性が増してますし、PullRequest Generatorを使うことで自前でNetlifyやCloudflareのようなPR previewがバックエンド込で構築できてしまうのがすごいです。
 FluxCDは、全体を使ったことはないのですが、ネットワークのIaCフレームワークを開発するときのGitOpsを行うコントローラとして、FluxCDのサブセットであるsource-controllerを使わせてもらいました。簡単に独自のGitOpsを組み上げることができたので、GitOpsする何かを自作したい人は試してみると良さそうです。
 
 
