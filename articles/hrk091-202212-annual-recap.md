@@ -52,13 +52,13 @@ PythonではFastAPI、Goではgrpc-goでAPIを実装していました。
 FastAPIでは、firestoreやKubernetes api-serverへのリクエストをラップしてREST APIとして提供する機能を担わせていました。Pydanticとdatamodel-codegenのおかげで開発体験は良かったですが、Kubernetesリソースを扱う用途でFastAPIを使うとパフォーマンスがネックでした。
 一方Goで書いているプロジェクトの方は、複数のマイクロサービスがサーバ間通信を多用する構成だったため、gRPCで効率的に開発できました。Goだと、net/httpにしてもgRPCにしてもhttpのサーブ機能も持っており、使いやすく抽象化しつつも過度に隠蔽していないためトランスポートなどを柔軟に変更できるのが良いです。[Connect](https://connect.build/) も使ってみたかったのですが時間が取れなかったので、来年の課題です。
 
-本当はRESTよりGraphQLを使いたいのですが今年は機会に恵まれなかったので、来年こそはGraphQLを選定した開発をやりたいです。外部向けにはGraphQLよりもRESTの方が利用者が多いという理由でRESTを選定しがちなのですが、[GraphQL SOFA](https://the-guild.dev/graphql/sofa-api)なるものを[layerXさんのブログ記事](https://tech.layerx.co.jp/entry/2022/12/19/230000)で見かけたので、このあたりも試してみたいです。
+本当はRESTよりGraphQLを使いたいのですが今年は機会に恵まれなかったので、来年こそはGraphQLを選定した開発をやりたいです。外部向けにはGraphQLよりもRESTの方が利用者が多いという理由でRESTを選定しがちなのですが、[GraphQL SOFA](https://the-guild.dev/graphql/sofa-api)なるものを[LayerXさんのブログ記事](https://tech.layerx.co.jp/entry/2022/12/19/230000)で見かけたので、このあたりも試してみたいです。
 
 
 ### Kubernetesカスタムオペレータ
 
 今年はKubernetesカスタムオペレータを書く機会が多かったので、kubebuilderにすごくお世話になりました。ginkgo/gomegaでのBDDテストの実装も、オペレータのテストが書きやすかったです。一方で、kubebuilderのBDDテストはユニットテストではなく、状態収束を待つ必要があってテスト時間がどうしても長くなってしまうので、来年はこのあたりも積極的に改善していきたいです。
-開発では、定番ですがkindやtelepresenceが活躍してくれました。カスタムオペレータはapi-serverとetcdさえあればどこでも開発・動作検証ができるので、このあたりの軽量性も良きです。
+開発では、定番ですがkindやTelepresenceが活躍してくれました。カスタムオペレータはapi-serverとetcdさえあればどこでも開発・動作検証ができるので、このあたりの軽量性も良きです。
 
 
 ### データベース
@@ -95,6 +95,8 @@ FluxCDは、全体を使ったことはないのですが、ネットワーク�
 
 - [Googleのソフトウェアエンジニアリング](https://www.oreilly.co.jp/books/9784873119656/)
   - CI/CDの基盤を開発しているエンジニアとして、自身の開発プロセス目線でもユーザのペルソナ目線でもすごく学びがありました。Googleほどのプロダクト規模でないと問題にならない or 意味がないものもありますが、「ビルド・リリースプロセスとはかくあるべき」というものが学べます。
+- [ソフトウェアアーキテクチャ・ハードパーツ](https://www.oreilly.co.jp/books/9784814400065/)
+  - 前作 [ソフトウェアアーキテクチャの基礎](https://www.oreilly.co.jp/books/9784873119823/) も良かったですが、コンポーネント・データの分解だけでなく統合すべきケースもトレードオフとともにまとまっており、分散アーキテクチャの各パターンとそのメリデメも簡潔にまとまっているので、アーキテクチャを検討するときのバイブルとして重宝しそうです。
 - [実用Go言語](https://www.oreilly.co.jp/books/9784873119694/)
   - 今年はGoを書くことが多かったので、とても参考になりました。 
 - [Real World HTTP 第2版](https://www.oreilly.co.jp/books/9784873119038/)
